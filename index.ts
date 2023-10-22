@@ -12,7 +12,6 @@ mainApp(app);
 const Server = app.listen(port, () => {
     console.log()
     db()
-    console.log("",port)
 });
  
 process.on("uncaughtException", (error: Error) => {
