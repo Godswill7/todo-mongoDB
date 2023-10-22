@@ -14,7 +14,7 @@ const app = (0, express_1.default)();
 const Server = app.listen(port, () => {
     console.log();
     (0, db_1.db)();
-    // console.log("server is active 🦾🦾🦾",port)
+    console.log("", port);
 });
 process.on("uncaughtException", (error) => {
     console.log("error due to uncaughtException", error);

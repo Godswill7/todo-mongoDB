@@ -8,12 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTask = exports.updateTask = exports.findAllTask = exports.findOneTask = exports.createTask = void 0;
 const taskModel_1 = require("../model/taskModel");
-// import { User } from "../model/userModel"
 const mainError_1 = require("../error/mainError");
+const mongoose_1 = __importDefault(require("mongoose"));
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const { title, description, dueDate, assignedTo } = req.body;
         const task = new taskModel_1.Task({
@@ -23,7 +27,7 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             assignedTo,
             completed: false,
         });
-        // task?.tasks.push(new mongoose.Types.ObjectId(task._id));
+        (_a = task.tasks) === null || _a === void 0 ? void 0 : _a.push(new mongoose_1.default.Types.ObjectId(task._id));
         task === null || task === void 0 ? void 0 : task.save();
         return res.status(mainError_1.HTTP.CREATE).json({
             message: "Task created",
@@ -77,11 +81,17 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const { title, description, dueDate } = req.body;
         const findTask = yield taskModel_1.Task.findById(taskID);
         if (findTask) {
-            const updateTask = yield taskModel_1.Task.findByIdAndUpdate({
+            const updateTask = yield taskModel_1.Task.findByIdAndUpdate(taskID, {
                 title,
                 description,
                 dueDate,
                 // completed: true,
+            }, {
+                new: true,
+            });
+            return res.status(mainError_1.HTTP.UPDATE).json({
+                message: "Task updated successfully",
+                data: updateTask,
             });
         }
         else {
@@ -89,12 +99,9 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 message: "cannot find task"
             });
         }
-        return res.status(mainError_1.HTTP.UPDATE).json({
-            message: "Task updated successfully",
-            data: exports.updateTask,
-        });
     }
     catch (error) {
+        console.log(error.message);
         return res.status(mainError_1.HTTP.BAD).json({
             message: "Error updating task",
             data: error.message
