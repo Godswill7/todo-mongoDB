@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Task } from "../model/taskModel";
-// import { User } from "../model/userModel"
 import { HTTP } from "../error/mainError";
+import mongoose from "mongoose"
 
 export const createTask = async (req: Request, res: Response) => {
   try {
@@ -16,7 +16,7 @@ export const createTask = async (req: Request, res: Response) => {
     });
     
 
-      // task?.tasks.push(new mongoose.Types.ObjectId(task._id));
+      task.tasks?.push(new mongoose.Types.ObjectId(task._id))
       task?.save();
 
       return res.status(HTTP.CREATE).json({
@@ -52,7 +52,6 @@ export const findOneTask = async (req: Request, res: Response) => {
 export const findAllTask = async (req: Request, res: Response) => {
   try {
     const findTask = await Task.find();
-
     return res.status(HTTP.OK).json({
       message: "All Task found",
       data: findTask,
@@ -75,28 +74,30 @@ export const updateTask = async (req: Request, res: Response) => {
 
     if (findTask) {
       const updateTask = await Task.findByIdAndUpdate(
+      taskID,
         {
           title,
           description,
           dueDate,
           // completed: true,
         },
-        // {
-        //   new: true,
-        // }
+        {
+          new: true,
+        }
       );
+        
+return res.status(HTTP.UPDATE).json({
+  message: "Task updated successfully",
+  data: updateTask,
+});
+
     } else {
       return res.status(HTTP.BAD).json({
         message:"cannot find task"
       })
     }
-
-      return res.status(HTTP.UPDATE).json({
-        message: "Task updated successfully",
-        data: updateTask,
-      });
-    
   } catch (error: any) {
+    console.log(error.message)
     return res.status(HTTP.BAD).json({
       message: "Error updating task",
       data:error.message

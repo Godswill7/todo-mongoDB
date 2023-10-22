@@ -12,7 +12,7 @@ mainApp(app);
 const Server = app.listen(port, () => {
     console.log()
     db()
-    // console.log("server is active 🦾🦾🦾",port)
+    console.log("",port)
 });
  
 process.on("uncaughtException", (error: Error) => {
