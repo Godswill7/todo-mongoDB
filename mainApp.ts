@@ -13,7 +13,6 @@ export const mainApp = ((app:Application)=>{
     }))
     app.use(express.json())
     
-    // app.use("/api/",user)
     app.use("/api",task)
     
     app.get("/", (req:Request,res:Response) => {

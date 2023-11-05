@@ -12,13 +12,8 @@ export const createTask = async (req: Request, res: Response) => {
       description,
       dueDate,
       assignedTo,
-      completed: false,
     });
     
-
-      task.tasks?.push(new mongoose.Types.ObjectId(task._id))
-      task?.save();
-
       return res.status(HTTP.CREATE).json({
       message: "Task created",
       data: task,

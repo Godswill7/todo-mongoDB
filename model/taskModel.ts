@@ -6,7 +6,7 @@ interface iTask {
     dueDate?: string,
     // completed?: boolean,
     assignedTo?: string,
-    tasks?: {}[]
+    // tasks?: {}[]
 }
 
 interface iTaskData extends iTask, mongoose.Document { };
@@ -31,9 +31,9 @@ const taskSchema = new mongoose.Schema(
     assignedTo: {
       type: String,
     },
-    tasks: {
-      type: [{}],
-    },
+    // tasks: {
+    //   type: [{}],
+    // },
   },
   {
     timestamps: true,

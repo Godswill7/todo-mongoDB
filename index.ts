@@ -10,7 +10,7 @@ const app: Application = express();
 mainApp(app);
 
 const Server = app.listen(port, () => {
-    console.log()
+    console.log(port)
     db()
 });
  
