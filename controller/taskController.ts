@@ -46,7 +46,9 @@ export const findOneTask = async (req: Request, res: Response) => {
 
 export const findAllTask = async (req: Request, res: Response) => {
   try {
-    const findTask = await Task.find();
+    const findTask = await Task.find().sort({
+      createdAt: -1
+    });
     return res.status(HTTP.OK).json({
       message: "All Task found",
       data: findTask,
